@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta property="og:title" content="MaraMania | 나만의 마라탕 레시피"/>
+    <meta property="og:description" content="나만의 마라탕 레시피를 만들어보자"/>
+    <meta property="og:image" content="{{ url_for('static', filename='파일이름') }}"/>
+
+    <title>MaraMania Recipe Create</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous">
+
+    <!-- JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    <script>
+        $(function () {
+            $('[data-toggle="popover"]').popover()
+        })
+
+        $(function () {
+            $('.example-popover').popover({
+                container: 'body'
+            })
+        })
+    </script>
+    <script>
+        $(document).ready(function () {
+            var $banner = $(".banner").find("ul");
+
+            var $bannerWidth = $banner.children().outerWidth();//
+            var $bannerHeight = $banner.children().outerHeight();
+            var $length = $banner.children().length;
+            var rollingId;
+
+            rollingId = setInterval(function () {
+                rollingStart();
+            }, 5000);
+
+            function rollingStart() {
+                $banner.css("width", $bannerWidth * $length + "px");
+                $banner.css("height", $bannerHeight + "px");
+                $banner.animate({left: -$bannerWidth + "px"}, 5000, function () {
+                    $(this).append("<li>" + $(this).find("li:first").html() + "</li>");
+                    $(this).find("li:first").remove();
+                    $(this).css("left", 0);
+                });
+            }
+        });
+    </script>
+
+
+    <!-- 폰트 -->
+    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+
+    <!-- CSS -->
+    <style type="text/css">
+        * {
+            font-family: 'Jua', sans-serif;
+        }
+
+        #icon {
+            width: 40px;
+            height: 40px;
+        }
+
+        body {
+            background-image: url("https://www.wallpapertip.com/wmimgs/48-484172_background-chinese-new-year-vector.jpg")
+        }
+
+
+        .content {
+            padding: 0 70px 20px 50px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .start_btn {
+            display: flex;
+            justify-content: center;
+        }
+
+        .main_intro {
+            padding: 60px 60px 0 60px;
+            color: whitesmoke;
+
+        }
+
+        button {
+            display: flex;
+            justify-content: center;
+
+        }
+
+        .banner {
+            position: relative;
+            width: 780px;
+            height: 517px;
+            top: 50px;
+            margin: 0 auto;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .banner ul {
+            position: absolute;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .banner ul li {
+            float: left;
+            width: 780px;
+            height: 517px;
+            margin: 0;
+            padding: 0;
+        }
+
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="wrap">
+
+    <!-- 네비게이션 바 -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/"><h1>MaraMania<img id="icon"
+                                                                        src="https://www.flaticon.com/svg/static/icons/svg/854/854525.svg"
+                                                                        alt=""></h1></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/Mara_lev1"><h2>&nbsp 시작하기 &nbsp</h2><span
+                            class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Mara_recipes"><h2>레시피 보관함 &nbsp</h2><span
+                            class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Mara_map"><h2>마라탕집 찾기</h2><span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+
+    <div class="content">
+        <div class="main_intro">
+            <h1>나만의 마라탕 레시피를 만들고, 마라탕 먹으러 가자!</h1>
+        </div>
+    </div>
+
+    <div class="start_btn">
+        <a href="/Mara_lev1"><button type="button" class="btn btn-primary btn-lg"><h1>시작하기</h1></button></a>
+    </div>
+
+
+    <div class="banner">
+        <ul style="list-style-type: none;">
+            <li><img src="https://t1.daumcdn.net/cfile/tistory/99AC59465C995E9C20"
+                     width="780px" height="517px"></li>
+            <li><img
+                    src="https://storage.enuri.info/pic_upload/knowbox2/202006/05310284920200616c13be825-95ab-48de-9fb1-67312997b2e6.jpg"
+                    width="780px" height="517px"></li>
+            <li><img src="https://cdn.crowdpic.net/list-thumb/thumb_l_A755234AF1E361ECB03098702A864FD1.jpg"
+                     width="780px" height="517px"></li>
+        </ul>
+    </div>
+
+
+</div>
+
+</body>
+</html>

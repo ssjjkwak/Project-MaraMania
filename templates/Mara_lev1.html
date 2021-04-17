@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>MaraMania Recipe Create</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous">
+
+    <!-- JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    <script>
+
+        let food_list = []
+
+        $(function () {
+            $('[data-toggle="popover"]').popover()
+        })
+
+        $(function () {
+            $('.example-popover').popover({
+                container: 'body'
+            })
+        })
+
+        function select_card(food) {
+            let card = $(`h2:contains('${food}')`).closest('.card')
+            let index = food_list.indexOf(food)
+            if (index === -1) {
+                food_list.push(food)
+                card.addClass('selected')
+            } else {
+                food_list.splice(index, 1)
+                card.removeClass('selected')
+            }
+            console.log(food_list)
+        }
+
+        function next() {
+            if (food_list.length === 0) {
+                alert("재료를 클릭해서 담아주세요!")
+
+            } else {
+                let mara_info = JSON.stringify({
+                    "food_list": food_list
+                })
+                location.href = '/Mara_lev2?mara_info=' + mara_info
+            }
+        }
+    </script>
+
+
+    <!-- 폰트 -->
+    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+
+    <!-- CSS -->
+    <style type="text/css">
+        .selected {
+            background-color: #007bff;
+            color: whitesmoke;
+
+        }
+
+        .list-group {
+            margin: 25px;
+            text-align: center;
+        }
+
+        * {
+            font-family: 'Jua', sans-serif;
+        }
+
+        #icon {
+            width: 40px;
+            height: 40px;
+        }
+
+        .wrap {
+            background-image: url("https://www.wallpapertip.com/wmimgs/48-484172_background-chinese-new-year-vector.jpg")
+
+        }
+
+        .content {
+            padding: 0 70px 50px 50px;
+        }
+
+        .main_intro {
+            padding: 30px 60px 0 60px;
+            color: whitesmoke;
+
+        }
+
+        button {
+            display: flex;
+            justify-content: flex-start;
+            float: right;
+            flex-direction: row-reverse;
+        }
+
+
+        .main {
+            display: flex;
+            justify-content: flex-start;
+            padding: 30px 0 0 30px;
+            flex-wrap: wrap;
+        }
+
+        .card {
+            margin: 25px;
+            text-align: center;
+
+        }
+
+        a:link {
+            color: black;
+            text-decoration: none;
+        }
+
+        a:visited {
+            color: black;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: black;
+            text-decoration: none;
+        }
+
+        .card:hover {
+            background-color: #007bff;
+            color: whitesmoke;
+        }
+
+        img {
+            width: 165px;
+            height: 145px;
+        }
+
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="wrap">
+
+    <!-- 네비게이션 바 -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/"><h1>MaraMania<img id="icon"
+                                                                        src="https://www.flaticon.com/svg/static/icons/svg/854/854525.svg"
+                                                                        alt=""></h1></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/Mara_lev1"><h2>&nbsp 시작하기 &nbsp</h2><span
+                            class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Mara_recipes"><h2>레시피 보관함 &nbsp</h2><span
+                            class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Mara_map"><h2>마라탕집 찾기</h2><span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+
+    <div class="content">
+
+        <!-- 상단 -->
+        <div class="main_intro">
+            <h1>원하는 재료를 클릭해서 마음껏 담아주세요!
+
+
+                <button type="button" onclick="next()" class="btn btn-primary btn-lg">NEXT</button>
+            </h1>
+
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" style="width: 38%" aria-valuenow="38" aria-valuemin="0"
+                     aria-valuemax="100"></div>
+            </div>
+
+        </div>
+
+
+        <!-- 재료 리스트 -->
+        <div class="main">
+            <div class="list-group">
+                <a href="#" class="list-group-item list-group-item-action list-group-item-success"
+                   onclick="select_card('순한맛')"><h2>0단계 순한맛</h2></a>
+                <a href="#" class="list-group-item list-group-item-action list-group-item-info"
+                   onclick="select_card('약간매운맛')"><h2>1단계 약간매운맛</h2></a>
+                <a href="#" class="list-group-item list-group-item-action list-group-item-warning"
+                   onclick="select_card('매운맛')"><h2>2단계 매운맛</h2></a>
+                <a href="#" class="list-group-item list-group-item-action list-group-item-danger"
+                   onclick="select_card('엄청매운맛')"><h2>3단계 엄청매운맛</h2></a>
+
+            </div>
+            <div class="card" style="width: 16rem;" onclick="select_card('양고기')">
+
+                <img src="http://신돈축산.com/web/product/extra/big/202008/2038ad99ef15df999e49c4b292774a83.jpg"
+                     class="card-img-top" alt="...">
+                <div class="card-body">
+                    <p class="card-text">
+                    <h2>양고기</h2></p>
+                </div>
+
+            </div>
+            <div class="card" style="width: 16rem;" onclick="select_card('소고기')">
+                <img src="https://cdn.crowdpic.net/detail-thumb/thumb_d_A1FFB0325E46AAB15519399D2C0FC503.jpg"
+                     class="card-img-top" alt="...">
+                <div class="card-body">
+                    <p class="card-text">
+                    <h2>소고기</h2></p>
+                </div>
+            </div>
+            <div class="card" style="width: 16rem;" onclick="select_card('청경채')">
+
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Baby_Pak_Choi_%2801%29.JPG/1200px-Baby_Pak_Choi_%2801%29.JPG"
+                     class="card-img-top" alt="...">
+                <div class="card-body">
+                    <p class="card-text">
+                    <h2>청경채</h2></p>
+                </div>
+
+
+            </div>
+            <div class="card" style="width: 16rem;" onclick="select_card('숙주나물')">
+
+                <img src="https://upload.wikimedia.org/wikipedia/commons/d/db/Mung_bean_sprouts.jpg"
+                     class="card-img-top" alt="...">
+                <div class="card-body">
+                    <p class="card-text">
+                    <h2>숙주나물</h2></p>
+                </div>
+
+
+            </div>
+            <div class="card" style="width: 16rem;" onclick="select_card('쑥갓')">
+
+                <img src="https://www.nongsaro.go.kr/mig_img/nihhs/05_dataroom/05_07woori_html/img/pic11d.jpg"
+                     class="card-img-top" alt="...">
+                <div class="card-body">
+                    <p class="card-text">
+                    <h2>쑥갓</h2></p>
+                </div>
+
+            </div>
+            <div class="card" style="width: 16rem;" onclick="select_card('배추')">
+
+                <img src="https://cdn.crowdpic.net/list-thumb/thumb_l_363CE304F9C37899DD23B7DE11D2DDB7.jpg"
+                     class="card-img-top" alt="...">
+                <div class="card-body">
+                    <p class="card-text">
+                    <h2>배추</h2></p>
+                </div>
+
+            </div>
+            <div class="card" style="width: 16rem;" onclick="select_card('목이버섯')">
+
+                <img src="https://post-phinf.pstatic.net/MjAxOTEwMDRfODAg/MDAxNTcwMTcyNjk1NTEy.baDsdtGUuyjdc5816_ofkjIjiZf9aID_eBNwVyKVnvUg.pY2SEINWRx2iHE8WCxo99nlKGViMlV9wo8M3KZ8kNxsg.JPEG/%ED%83%80%EC%9D%B4%ED%8B%80_128008937_l.jpg?type=w1200"
+                     class="card-img-top" alt="...">
+                <div class="card-body">
+                    <p class="card-text">
+                    <h2>목이버섯</h2></p>
+                </div>
+
+            </div>
+            <div class="card" style="width: 16rem;" onclick="select_card('감자')">
+
+                <img src="https://img1.daumcdn.net/thumb/R720x0.q80/?scode=mtistory2&fname=http%3A%2F%2Fcfile24.uf.tistory.com%2Fimage%2F999F233A5D5A95530EF291"
+                     class="card-img-top" alt="...">
+                <div class="card-body">
+                    <p class="card-text">
+                    <h2>감자</h2></p>
+                </div>
+
+            </div>
+            <div class="card" style="width: 16rem;" onclick="select_card('표고버섯')">
+
+                <img src="https://media.mercola.com/imageserver/public/2018/december/shiitake-mushrooms-saag.jpg"
+                     class="card-img-top" alt="...">
+                <div class="card-body">
+                    <p class="card-text">
+                    <h2>표고버섯</h2></p>
+                </div>
+
+            </div>
+            <div class="card" style="width: 16rem;" onclick="select_card('고수')">
+
+                <img src="data:image/jpeg;base64,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"
+                     class="card-img-top" alt="...">
+                <div class="card-body">
+                    <p class="card-text">
+                    <h2>고수</h2></p>
+                </div>
+
+            </div>
+            <div class="card" style="width: 16rem;" onclick="select_card('시금치')">
+
+                <img src="https://www.kamis.or.kr/ckeditor/imageUpload/u1_1546930874482.JPG" class="card-img-top"
+                     alt="...">
+                <div class="card-body">
+                    <p class="card-text">
+                    <h2>시금치</h2></p>
+                </div>
+
+            </div>
+            <div class="card" style="width: 16rem;" onclick="select_card('연근')">
+
+                <img src="https://previews.123rf.com/images/kaiskynet/kaiskynet1512/kaiskynet151200060/49045364-%ED%9D%B0%EC%83%89-%EB%B0%B0%EA%B2%BD%EC%97%90-%EC%97%B0%EA%B7%BC.jpg"
+                     class="card-img-top" alt="...">
+                <div class="card-body">
+                    <p class="card-text">
+                    <h2>연근</h2></p>
+                </div>
+
+            </div>
+            <div class="card" style="width: 16rem;" onclick="select_card('팽이버섯')">
+
+                <img src="https://img1.daumcdn.net/thumb/S720x400/?scode=1boon&fname=http://t1.daumcdn.net/liveboard/realfood/a2707be4b19943dbba1cc0255b48a245.JPG"
+                     class="card-img-top" alt="...">
+                <div class="card-body">
+                    <p class="card-text">
+                    <h2>팽이버섯</h2></p>
+                </div>
+
+            </div>
+            <div class="card" style="width: 16rem;" onclick="select_card('미나리')">
+
+                <img src="https://t1.daumcdn.net/cfile/tistory/99A5A53C5F0278A932" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <p class="card-text">
+                    <h2>미나리</h2></p>
+                </div>
+
+            </div>
+            <div class="card" style="width: 16rem;" onclick="select_card('콩나물')">
+
+                <img src="https://t1.daumcdn.net/cfile/tistory/9971E73C5BC605F224"
+                     class="card-img-top" alt="...">
+                <div class="card-body">
+                    <p class="card-text">
+                    <h2>콩나물</h2></p>
+                </div>
+
+            </div>
+            <div class="card" style="width: 16rem;" onclick="select_card('납작면')">
+
+                <img src="https://homecuisine.co.kr/files/attach/images/140/972/069/1fee8646d9813d035e567ad37616cb79.JPG"
+                     class="card-img-top" alt="...">
+                <div class="card-body">
+                    <p class="card-text">
+                    <h2>납작면</h2></p>
+                </div>
+
+            </div>
+            <div class="card" style="width: 16rem;" onclick="select_card('당면')">
+
+                <img src="http://food.chosun.com/site/data/img_dir/2016/02/11/2016021101007_0.jpg"
+                     class="card-img-top" alt="...">
+                <div class="card-body">
+                    <p class="card-text">
+                    <h2>당면</h2></p>
+                </div>
+
+            </div>
+            <div class="card" style="width: 16rem;" onclick="select_card('옥수수면')">
+
+                <img src="https://image.auction.co.kr/itemimage/1a/cb/79/1acb7917f6.jpg" class="card-img-top"
+                     alt="...">
+                <div class="card-body">
+                    <p class="card-text">
+                    <h2>옥수수면</h2></p>
+                </div>
+
+            </div>
+            <div class="card" style="width: 16rem;" onclick="select_card('분모자')">
+
+                <img src="https://m.bontamall.com/web/product/extra/big/201907/ed0d2b1ee9d80293c0237572608225c1.jpg"
+                     class="card-img-top" alt="...">
+                <div class="card-body">
+                    <p class="card-text">
+                    <h2>분모자</h2></p>
+                </div>
+
+            </div>
+            <div class="card" style="width: 16rem;" onclick="select_card('푸주')">
+
+                <img src="https://mblogthumb-phinf.pstatic.net/MjAxNjEyMjhfMjI5/MDAxNDgyOTEwNzM3NTk3.cekv0fWHcIuAtzOs2Zgfxxfy3Qo9rZRAcPCPlZ7O6h4g.EbEu32JL3k9nI1SRyNCR6b6RO9ixLu3-0aXwnFG3T3cg.JPEG.joodaso/16-12-08-17-45-22-544_photo.jpg?type=w2"
+                     class="card-img-top" alt="...">
+                <div class="card-body">
+                    <p class="card-text">
+                    <h2>푸주</h2></p>
+                </div>
+
+            </div>
+            <div class="card" style="width: 16rem;" onclick="select_card('라면사리')">
+
+                <img src="https://cdn.crowdpic.net/list-thumb/thumb_l_2F0168FC385157A7A1FE5DC510ACBBAF.jpg"
+                     class="card-img-top" alt="...">
+                <div class="card-body">
+                    <p class="card-text">
+                    <h2>라면사리</h2></p>
+                </div>
+
+            </div>
+            <div class="card" style="width: 16rem;" onclick="select_card('녹두면')">
+
+                <img src="https://previews.123rf.com/images/ritablue/ritablue1601/ritablue160100004/51006014-%EC%95%BC%EC%97%90-%EB%85%B9%EB%91%90-%EB%8B%B9%EB%A9%B4.jpg"
+                     class="card-img-top" alt="...">
+                <div class="card-body">
+                    <p class="card-text">
+                    <h2>녹두면</h2></p>
+                </div>
+
+            </div>
+            <div class="card" style="width: 16rem;" onclick="select_card('쌀국수면')">
+
+                <img src="https://post-phinf.pstatic.net/MjAxNzAzMTBfMjQy/MDAxNDg5MTI5NzQ0OTU1.2gAYOo3D_JkhxqVpmBMM7az3ZAu5NBDLOf9HsPsQqcQg.UiLl-Fr0hq0F1awt2kPZhKdPxF3Dvx3YKGOQg63AuIog.PNG/%ED%8D%BC.png?type=w1200"
+                     class="card-img-top" alt="...">
+                <div class="card-body">
+                    <p class="card-text">
+                    <h2>쌀국수면</h2></p>
+                </div>
+
+            </div>
+            <div class="card" style="width: 16rem;" onclick="select_card('건두부')">
+
+                <img src="https://post-phinf.pstatic.net/MjAxNzExMDJfMjAy/MDAxNTA5NTU4NTE5MTE2.7dpqlpUSucUbe6RU4n7JldORMEalQ5fP4h9lC6z8JEgg.zpz_vgH43_Rds2Rf0VRAomIZfe-v73P1wrE1HlRHVycg.JPEG/sp.jpg?type=w1200"
+                     class="card-img-top" alt="...">
+                <div class="card-body">
+                    <p class="card-text">
+                    <h2>건두부</h2></p>
+                </div>
+
+            </div>
+            <div class="card" style="width: 16rem;" onclick="select_card('치즈떡')">
+
+                <img src="https://image.auction.co.kr/itemimage/17/9b/e7/179be770e6.jpg" class="card-img-top"
+                     alt="...">
+                <div class="card-body">
+                    <p class="card-text">
+                    <h2>치즈떡</h2></p>
+                </div>
+
+            </div>
+            <div class="card" style="width: 16rem;" onclick="select_card('수제비')">
+
+                <img src="http://www.kocis.go.kr/CONTENTS/BOARD/images/4Sujebi_cook_1.jpg"
+                     class="card-img-top" alt="...">
+                <div class="card-body">
+                    <p class="card-text">
+                    <h2>수제비</h2></p>
+                </div>
+
+            </div>
+            <div class="card" style="width: 16rem;" onclick="select_card('비엔나소시지')">
+
+                <img src="https://cdn.crowdpic.net/list-thumb/thumb_l_D94BC4F88586DB099E9FFC2572396B56.jpg"
+                     class="card-img-top" alt="...">
+                <div class="card-body">
+                    <p class="card-text">
+                    <h2>비엔나소시지</h2></p>
+                </div>
+
+            </div>
+            <div class="card" style="width: 16rem;" onclick="select_card('햄')">
+
+                <img src="https://cdn.crowdpic.net/list-thumb/thumb_l_F870377EAA7EE08B92D30A775A13B1F5.jpg"
+                     class="card-img-top" alt="...">
+                <div class="card-body">
+                    <p class="card-text">
+                    <h2>햄</h2></p>
+                </div>
+
+            </div>
+            <div class="card" style="width: 16rem;" onclick="select_card('피쉬볼')">
+
+                <img src="https://ejfoodstory.com/web/product/big/201710/329_shop1_555009.jpg" class="card-img-top"
+                     alt="...">
+                <div class="card-body">
+                    <p class="card-text">
+                    <h2>피쉬볼</h2></p>
+                </div>
+
+            </div>
+            <div class="card" style="width: 16rem;" onclick="select_card('문어완자')">
+
+                <img src="https://gdimg.gmarket.co.kr/1614993092/still/600?ver=1558793665" class="card-img-top"
+                     alt="...">
+                <div class="card-body">
+                    <p class="card-text">
+                    <h2>문어완자</h2></p>
+                </div>
+
+            </div>
+            <div class="card" style="width: 16rem;" onclick="select_card('새우완자')">
+
+                <img src="https://www.simbata.co.kr/img_src/s600/a920/a9200010.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <p class="card-text">
+                    <h2>새우완자</h2></p>
+                </div>
+
+            </div>
+            <div class="card" style="width: 16rem;" onclick="select_card('대하')">
+
+                <img src="http://www.hdhy.co.kr/news/photo/201510/4105_4458_00.jpg"
+                     class="card-img-top" alt="...">
+                <div class="card-body">
+                    <p class="card-text">
+                    <h2>대하</h2></p>
+                </div>
+
+            </div>
+            <div class="card" style="width: 16rem;" onclick="select_card('유부')">
+
+                <img src="https://simbata.co.kr/img_src/s600/1211/12110327.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <p class="card-text">
+                    <h2>유부</h2></p>
+                </div>
+
+            </div>
+            <div class="card" style="width: 16rem;" onclick="select_card('메추리알')">
+
+                <img src="https://www.sk5.co.kr/img_src/s600/1227/12271797.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <p class="card-text">
+                    <h2>메추리알</h2></p>
+                </div>
+
+            </div>
+            <div class="card" style="width: 16rem;" onclick="select_card('쭈꾸미')">
+
+                <img src="https://image.auction.co.kr/itemimage/da/4f/a0/da4fa0106.jpg" class="card-img-top"
+                     alt="...">
+                <div class="card-body">
+                    <p class="card-text">
+                    <h2>쭈꾸미</h2></p>
+                </div>
+
+            </div>
+            <div class="card" style="width: 16rem;" onclick="select_card('오징어')">
+
+                <img src="https://cdn.crowdpic.net/list-thumb/thumb_l_F801256137F498CCB6CEAAD9277476C1.jpg"
+                     class="card-img-top" alt="...">
+                <div class="card-body">
+                    <p class="card-text">
+                    <h2>오징어</h2></p>
+                </div>
+
+            </div>
+            <div class="card" style="width: 16rem;" onclick="select_card('죽순')">
+
+                <img src="https://img.danawa.com/prod_img/500000/780/167/img/5167780_1.jpg?shrink=500:500&_v=20170523122202"
+                     class="card-img-top" alt="...">
+                <div class="card-body">
+                    <p class="card-text">
+                    <h2>죽순</h2></p>
+                </div>
+
+            </div>
+            <div class="card" style="width: 16rem;" onclick="select_card('게맛살')">
+
+                <img src="https://upload.wikimedia.org/wikipedia/commons/c/c7/Kanikama.jpg" class="card-img-top"
+                     alt="...">
+                <div class="card-body">
+                    <p class="card-text">
+                    <h2>게맛살</h2></p>
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

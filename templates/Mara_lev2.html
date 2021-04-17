@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>MaraMania Recipe Create</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous">
+
+    <!-- JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    <script>
+
+        let mara_info
+
+        $(document).ready(function () {
+            let mara_info_json = $('.mara_info').text()
+            mara_info = JSON.parse(mara_info_json)
+        })
+
+        let food_list = []
+        $(function () {
+            $('[data-toggle="popover"]').popover()
+        })
+
+        $(function () {
+            $('.example-popover').popover({
+                container: 'body'
+            })
+        })
+
+        function select_card(food) {
+            let card = $(`h2:contains('${food}')`).closest('.card')
+            let index = mara_info['food_list'].indexOf(food)
+            if (index === -1) {
+                mara_info['food_list'].push(food)
+                card.addClass('selected')
+            } else {
+                mara_info['food_list'].splice(index, 1)
+                card.removeClass('selected')
+            }
+            console.log(mara_info['food_list'])
+        }
+
+        function next() {
+            if (mara_info['food_list'].length === 0) {
+                alert("재료를 클릭해서 담아주세요!")
+
+            } else {
+                mara_info['food_list'].concat(food_list)
+                console.log(mara_info)
+                location.href = '/Mara_lev3?mara_info=' + mara_info
+            }
+        }
+
+        function makeRecipe() {
+
+            let title = $("#title").val();
+            let author = $("#author").val();
+            let content = $("#content").val();
+
+
+            if (title === "") {
+                alert("제목을 입력해주세요");
+                $("#title").focus();
+                return;
+            } else if (author === "") {
+                alert("작성자를 입력해주세요");
+                $("#author").focus();
+                return;
+            } else if (content === "") {
+                alert("내용을 입력해주세요");
+                $("#content").focus();
+                return;
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "/Mara_lev2",
+                data: {
+                    title_give: title,
+                    author_give: author,
+                    content_give: content,
+                    mara_info: JSON.stringify(mara_info['food_list'])
+                },
+                success: function (response) {
+                    if (response["result"] === "success") {
+                        alert(response["msg"]);
+                        window.location.reload();
+                    }
+                }
+            })
+        }
+    </script>
+
+
+    <!-- 폰트 -->
+    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+
+    <!-- CSS -->
+    <style type="text/css">
+        * {
+            font-family: 'Jua', sans-serif;
+        }
+
+        .selected {
+            background-color: #007bff;
+            color: whitesmoke;
+
+        }
+        .mara_info {
+            display: none;
+        }
+
+        #icon {
+            width: 40px;
+            height: 40px;
+        }
+
+        body {
+            background-image: url("https://www.wallpapertip.com/wmimgs/48-484172_background-chinese-new-year-vector.jpg")
+        }
+
+
+        .content {
+            padding: 0 70px 50px 50px;
+        }
+
+        .main_intro {
+            padding: 30px 60px 0 60px;
+            color: whitesmoke;
+
+        }
+
+
+        button {
+            display: flex;
+            justify-content: flex-start;
+            float: right;
+            flex-direction: row-reverse;
+            margin-left: 5px;
+
+        }
+
+
+
+        .main {
+            display: flex;
+            justify-content: center;
+            flex-direction: row;
+            padding: 30px 0 0 30px;
+            flex-wrap: wrap;
+
+        }
+
+        .list-group {
+            margin: 25px;
+            text-align: center;
+        }
+
+        .card {
+            margin: 25px;
+            text-align: center;
+        }
+
+        a:link {
+            color: black;
+            text-decoration: none;
+        }
+
+        a:visited {
+            color: black;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: black;
+            text-decoration: none;
+        }
+
+        .card:hover {
+            background-color: #007bff;
+            color: whitesmoke;
+        }
+
+        img {
+            width: 165px;
+            height: 145px;
+        }
+
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="wrap">
+
+    <!-- 네비게이션 바 -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/"><h1>MaraMania<img id="icon"
+                                                           src="https://www.flaticon.com/svg/static/icons/svg/854/854525.svg"
+                                                           alt=""></h1></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/Mara_lev1"><h2>&nbsp 시작하기 &nbsp</h2><span
+                            class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Mara_recipes"><h2>레시피 보관함 &nbsp</h2><span
+                            class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Mara_map"><h2>마라탕집 찾기</h2><span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+
+    <div class="content">
+
+        <!-- 상단 -->
+        <div class="main_intro">
+            <h1>내가 만든 레시피를 설명해주세요!
+                <a href="">
+                    <button type="button" class="btn btn-primary btn-lg" onclick="makeRecipe()">SAVE</button>
+                </a>
+
+                <a href="/Mara_lev1">
+                    <button type="button" class="btn btn-primary btn-lg">BACK</button>
+                </a>
+            </h1>
+
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0"
+                     aria-valuemax="100"></div>
+            </div>
+
+        </div>
+
+        <!-- 재료 리스트 -->
+        <div class="main">
+
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1"><h2>레시피 제목</h2></span>
+                </div>
+                <input type="text" class="form-control" placeholder="ex) 스트레스 뿌시기!" id="title" aria-label="Username"
+                       aria-describedby="basic-addon1">
+            </div>
+
+
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon3"><h2>작성자 이름</h2></span>
+                </div>
+                <input type="text" class="form-control" placeholder="ex) 구로구 청년" id="author"
+                       aria-describedby="basic-addon3">
+            </div>
+
+
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><h2>간단한 설명</h2></span>
+                </div>
+                <textarea class="form-control" placeholder="ex) 너무 맛있는 저만의 레시피 입니다"
+                          aria-label="With textarea" id="content"></textarea>
+            </div>
+
+            <div class="mara_info">
+                {{mara_info}}
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
